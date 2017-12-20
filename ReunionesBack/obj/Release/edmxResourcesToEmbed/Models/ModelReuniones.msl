@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ReunionesDBModelStoreContainer" CdmEntityContainer="ReunionesDBModelos">
+    <EntitySetMapping Name="Estados_reunion">
+      <EntityTypeMapping TypeName="ReunionesDBModel.Estados_reunion">
+        <MappingFragment StoreEntitySet="Estados_reunion">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre_estado" ColumnName="nombre_estado" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reunion">
+      <EntityTypeMapping TypeName="ReunionesDBModel.Reunion">
+        <MappingFragment StoreEntitySet="Reunion">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+          <ScalarProperty Name="owner" ColumnName="owner" />
+          <ScalarProperty Name="fecha" ColumnName="fecha" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Usuario">
+      <EntityTypeMapping TypeName="ReunionesDBModel.Usuario">
+        <MappingFragment StoreEntitySet="Usuario">
+          <ScalarProperty Name="correo" ColumnName="correo" />
+          <ScalarProperty Name="contrasena" ColumnName="contrasena" />
+          <ScalarProperty Name="nombre" ColumnName="nombre" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Estados_reunion_usuario">
+      <EntityTypeMapping TypeName="ReunionesDBModel.Estados_reunion_usuario">
+        <MappingFragment StoreEntitySet="Estados_reunion_usuario">
+          <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+          <ScalarProperty Name="id_estado_reunion" ColumnName="id_estado_reunion" />
+          <ScalarProperty Name="id_reunion" ColumnName="id_reunion" />
+          <ScalarProperty Name="vigencia" ColumnName="vigencia" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

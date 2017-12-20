@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ReunionesDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Estados_reunion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="nombre_estado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Estados_reunion_usuario" Relationship="Self.FK_estados_reunion_usuario_estados_reunion" FromRole="Estados_reunion" ToRole="Estados_reunion_usuario" />
+  </EntityType>
+  <EntityType Name="Reunion">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="owner" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="fecha" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Estados_reunion_usuario" Relationship="Self.FK_estados_reunion_usuario_reunion" FromRole="Reunion" ToRole="Estados_reunion_usuario" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK_reunion_usuario" FromRole="Reunion" ToRole="Usuario" />
+  </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="correo" />
+    </Key>
+    <Property Name="correo" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="contrasena" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="nombre" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Reunion" Relationship="Self.FK_reunion_usuario" FromRole="Usuario" ToRole="Reunion" />
+    <NavigationProperty Name="Estados_reunion_usuario" Relationship="Self.FK_estados_reunion_usuario_usuario" FromRole="Usuario" ToRole="Estados_reunion_usuario" />
+  </EntityType>
+  <EntityType Name="Estados_reunion_usuario">
+    <Key>
+      <PropertyRef Name="id_usuario" />
+      <PropertyRef Name="id_estado_reunion" />
+      <PropertyRef Name="id_reunion" />
+      <PropertyRef Name="vigencia" />
+    </Key>
+    <Property Name="id_usuario" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="id_estado_reunion" Type="Int32" Nullable="false" />
+    <Property Name="id_reunion" Type="Int32" Nullable="false" />
+    <Property Name="vigencia" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Estados_reunion" Relationship="Self.FK_estados_reunion_usuario_estados_reunion" FromRole="Estados_reunion_usuario" ToRole="Estados_reunion" />
+    <NavigationProperty Name="Reunion" Relationship="Self.FK_estados_reunion_usuario_reunion" FromRole="Estados_reunion_usuario" ToRole="Reunion" />
+    <NavigationProperty Name="Usuario" Relationship="Self.FK_estados_reunion_usuario_usuario" FromRole="Estados_reunion_usuario" ToRole="Usuario" />
+  </EntityType>
+  <Association Name="FK_estados_reunion_usuario_estados_reunion">
+    <End Role="Estados_reunion" Type="Self.Estados_reunion" Multiplicity="1" />
+    <End Role="Estados_reunion_usuario" Type="Self.Estados_reunion_usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Estados_reunion">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Estados_reunion_usuario">
+        <PropertyRef Name="id_estado_reunion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_estados_reunion_usuario_reunion">
+    <End Role="Reunion" Type="ReunionesDBModel.Reunion" Multiplicity="1" />
+    <End Role="Estados_reunion_usuario" Type="Self.Estados_reunion_usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Reunion">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Estados_reunion_usuario">
+        <PropertyRef Name="id_reunion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_reunion_usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Reunion" Type="ReunionesDBModel.Reunion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="correo" />
+      </Principal>
+      <Dependent Role="Reunion">
+        <PropertyRef Name="owner" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_estados_reunion_usuario_usuario">
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+    <End Role="Estados_reunion_usuario" Type="Self.Estados_reunion_usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Usuario">
+        <PropertyRef Name="correo" />
+      </Principal>
+      <Dependent Role="Estados_reunion_usuario">
+        <PropertyRef Name="id_usuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ReunionesDBModelos" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Estados_reunion" EntityType="Self.Estados_reunion" />
+    <EntitySet Name="Reunion" EntityType="ReunionesDBModel.Reunion" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+    <EntitySet Name="Estados_reunion_usuario" EntityType="Self.Estados_reunion_usuario" />
+    <AssociationSet Name="FK_estados_reunion_usuario_estados_reunion" Association="Self.FK_estados_reunion_usuario_estados_reunion">
+      <End Role="Estados_reunion" EntitySet="Estados_reunion" />
+      <End Role="Estados_reunion_usuario" EntitySet="Estados_reunion_usuario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_estados_reunion_usuario_reunion" Association="Self.FK_estados_reunion_usuario_reunion">
+      <End Role="Reunion" EntitySet="Reunion" />
+      <End Role="Estados_reunion_usuario" EntitySet="Estados_reunion_usuario" />
+    </AssociationSet>
+    <AssociationSet Name="FK_reunion_usuario" Association="Self.FK_reunion_usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Reunion" EntitySet="Reunion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_estados_reunion_usuario_usuario" Association="Self.FK_estados_reunion_usuario_usuario">
+      <End Role="Usuario" EntitySet="Usuario" />
+      <End Role="Estados_reunion_usuario" EntitySet="Estados_reunion_usuario" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
